@@ -1,33 +1,18 @@
-import { query, Client } from 'faunadb';
+import { Client, QueryOptions, Expr } from 'faunadb';
 
-export function addDocument(collection: any, data: any) {
-  const q = query;
-
+export function queryDB(faunaQuery: Expr, queryOptions?: QueryOptions) {
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
   };
 
-  const { firstName, lastName, email, password } = data;
-
   const client = new Client({
-    secret: process.env.FAUNADB_SERVER_SECRET ?? '',
+    secret: queryOptions?.secret ?? process.env.FAUNADB_SERVER_SECRET ?? '',
   });
 
   return client
-    .query(
-      q.Create(q.Collection(collection), {
-        credentials: {
-          password: password,
-        },
-        data: {
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-        },
-      }),
-    )
+    .query(faunaQuery)
     .then((res) => {
       return {
         statusCode: 200,

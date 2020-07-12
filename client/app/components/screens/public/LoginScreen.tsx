@@ -14,11 +14,9 @@ import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
 const GET_USERS = gql`
-  query GetUsers {
-    users {
-      data {
-        firstName
-      }
+  query GetUsers($id: ID!) {
+    findUserByID(id: $id) {
+      firstName
     }
   }
 `;
@@ -35,7 +33,9 @@ const LoginScreen = memo(() => {
 
   const initialValues = useMemo(() => ({ email: "", password: "" }), []);
 
-  const { loading, data } = useQuery(GET_USERS);
+  const { loading, data } = useQuery(GET_USERS, {
+    variables: { id: "270842767588983309" },
+  });
 
   useEffect(() => console.log(data), [data]);
 

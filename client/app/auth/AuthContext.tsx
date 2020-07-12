@@ -92,24 +92,20 @@ const AuthProvider = (props: Props) => {
   const authDispatch = useMemo(
     () => ({
       signIn: async (data: SignInDetails) => {
-        const formData = new FormData();
-        formData.append("email", data.email);
-        formData.append("password", data.password);
-
+        console.log(data);
         axios
-          .post("https://localhost:8080/api/login", formData)
+          .post(
+            "http://localhost:8888/.netlify/functions/login",
+            JSON.stringify(data)
+          )
           .then((res) => {
             console.log(res);
             if (res.status === 200) {
-              AsyncStorage.setItem("userToken", res.data.token);
-              axios.defaults.headers.common["Authorization"] =
-                "Bearer " + res.data.token;
+              AsyncStorage.setItem("userToken", res.data.response.secret);
+              // axios.defaults.headers.common["Authorization"] =
+              //   "Bearer " + res.data.token;
 
-              dispatch({ type: "SIGN_IN", token: res.data.token });
-            }
-
-            if (res.status === 401) {
-              console.log("Fail");
+              // dispatch({ type: "SIGN_IN", token: res.data.token });
             }
           })
           .catch((e) => console.log(e));
@@ -128,19 +124,17 @@ const AuthProvider = (props: Props) => {
       signOut: () => dispatch({ type: "SIGN_OUT" }),
       validateToken: async (token: string) => {
         console.log("validate", token);
-
-        axios.get("http://localhost:8080/api/validate-token").then((res) => {
-          console.log(res);
-          if (res.status === 200) {
-            console.log(res);
-            dispatch({ type: "SIGN_IN", token: token });
-          }
-
-          if (res.status === 401) {
-            console.log("Unauthorised", res);
-            // dispatch({type: 'SIGN_OUT'})
-          }
-        });
+        // axios.get("http://localhost:8080/api/validate-token").then((res) => {
+        //   console.log(res);
+        //   if (res.status === 200) {
+        //     console.log(res);
+        //     dispatch({ type: "SIGN_IN", token: token });
+        //   }
+        //   if (res.status === 401) {
+        //     console.log("Unauthorised", res);
+        //     // dispatch({type: 'SIGN_OUT'})
+        //   }
+        // });
       },
     }),
     []
