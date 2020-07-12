@@ -66,3 +66,4 @@ In the client directory run `yarn start`
 
 - https://www.netlify.com/blog/2018/07/09/building-serverless-crud-apps-with-netlify-functions-faunadb/#setup-run-locally
 - https://dev.to/studio_hungry/jamstack-and-the-power-of-serverless-with-faunadb-17ec
+- https://www.apollographql.com/docs/react/get-started/

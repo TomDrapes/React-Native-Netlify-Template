@@ -37,23 +37,6 @@ function createFaunaDB(key) {
     secret: key,
   });
 
-  /* Based on your requirements, change the schema here */
-  // return client.query(q.Create(q.Ref('classes'), { name: 'users' }))
-  //   .then(() => {
-  //     return client.query(
-  //       q.Create(q.Ref('indexes'), {
-  //         name: 'all_todos',
-  //         source: q.Ref('classes/todos')
-  //       }))
-  //   }).catch((e) => {
-  //     // Database already exists
-  //     if (e.requestResult.statusCode === 400 && e.message === 'instance not unique') {
-  //       console.log('Fauna already setup! Good to go')
-  //       console.log('Claim your fauna database with "netlify addons:auth fauna"')
-  //       throw e
-  //     }
-  //   })
-
   return client
     .query(
       q.Create(q.Collection("User"), {
